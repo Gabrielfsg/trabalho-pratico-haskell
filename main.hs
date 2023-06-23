@@ -14,7 +14,7 @@ verificaOperadorChar c = c `elem` ['+', '-', '*', '/']
 validaOperador :: String -> Bool
 validaOperador c = head c `elem` ['+', '-', '*', '/']
 
--- Função que recebe um simbolo (+ ou / ou - ou *) e dois números eexecuta a operação
+-- Função que recebe um simbolo (+ ou / ou - ou *) e dois números e executa a operação
 
 executarOperacaoAritmetica :: String -> Float -> Float -> Float
 executarOperacaoAritmetica "+" x y = x + y
