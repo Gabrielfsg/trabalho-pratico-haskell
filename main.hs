@@ -58,7 +58,7 @@ buscaNumero (c:cs) cont
   | otherwise = error "A entrada não aceita numeros com dois pontos. Exemplo: 2.2.343"
 
 
--- Função separa a função entre parênteses do resto da expressão para ser executada
+-- Função que separa a parte da expressão entre parênteses do resto da expressão total, para ser executada
 resolveSubexpressao :: [String] -> ([String], [String])
 resolveSubexpressao = resolveSubexpressaoAux 0
   where
