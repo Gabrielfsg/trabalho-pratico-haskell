@@ -88,9 +88,9 @@ restoMult res tokens@(token:tokens') |
                                 where 
                                     (tipo,lex) = token
                         
-                                    
-                        
+                                                          
 uno :: [Token] -> (String,[Token])
+uno [] = ("",[])
 uno tokens = if tipo == "OP" then
                         let
                            (numCru,tokens') = uno tokens
@@ -104,6 +104,7 @@ uno tokens = if tipo == "OP" then
 
                         
 fator :: [Token] -> (String,[Token])
+fator [] = ("",[])
 fator tokens = if tipo == "NUM" then
                           let
                             num = lex
@@ -124,18 +125,10 @@ consome:: [Token] -> Tipo -> [Token]
 consome [] _ = []
 consome ((tipo,lex):ts) tipoEsperado = if tipo == tipoEsperado then  
                                           ts 
-                                       else if tipoEsperado == "FECHA_PAR" then
-                                          removeTokensSubExp ts 
                                        else if tipo == "Error" then
                                           error ("Caractere inválido: " ++ lex)
                                        else  
                                           error ("Esperado {" ++ tipoEsperado ++ "} e foi recebido {" ++ tipo ++ "}")  
-
--- "Caractere " ++ lex ++ " é inválido"
---  "Esperado {" : tipoEsperado : "} e foi recebido: " ++ tipo 
--- Remove os tokens de uma expressão em parentesis
-removeTokensSubExp ((tipo,lex):ts) | lex == ")" = ts
-                                   | otherwise = removeTokensSubExp ts
 
 -- Função auxiliar para executar uma operação aritmética
 executarOperacao :: String -> String -> String -> [Token] -> (String,[Token])
