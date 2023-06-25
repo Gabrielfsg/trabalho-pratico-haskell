@@ -59,7 +59,7 @@ restoAdd res [] = (res,[])
 restoAdd res tokens@(token:_) =
                             let 
                                 (tipo,lex) = token
-                            in if tipo == "OP" then 
+                            in if tipo == "OP" && (lex == "+" || lex == "-") then 
                                     let 
                                         tokens' = consome tokens "OP"
                                         (y,tokens'') = mult tokens'
@@ -78,7 +78,7 @@ mult tokens@(token: _) = let (res,tokens') = (uno tokens)
 restoMult :: String -> [Token] -> (String,[Token])
 restoMult res [] = (res,[])
 restoMult res tokens@(token:tokens') | 
-                                tipo == "OP" = 
+                                tipo == "OP"  && (lex == "*" || lex == "/")= 
                                     let 
                                         tokens'' = consome tokens "OP"
                                         (y,tokens''') = uno tokens''
@@ -120,15 +120,16 @@ fator tokens = if tipo == "NUM" then
                     (tipo,lex) = head tokens
 
 -- Consome um token baseado em um token que se espera consumir e retorna o resto
-consome:: [Token] -> Tipo -> [Token] 
+consome:: [Token] -> Tipo -> [Token]
+consome [] _ = []
 consome ((tipo,lex):ts) tipoEsperado = if tipo == tipoEsperado then  
                                           ts 
                                        else if tipoEsperado == "FECHA_PAR" then
                                           removeTokensSubExp ts 
                                        else if tipo == "Error" then
-                                          error "Caractere inválido"
+                                          error ("Caractere inválido: " ++ lex)
                                        else  
-                                          error "Esperado algo" 
+                                          error ("Esperado {" ++ tipoEsperado ++ "} e foi recebido {" ++ tipo ++ "}")  
 
 -- "Caractere " ++ lex ++ " é inválido"
 --  "Esperado {" : tipoEsperado : "} e foi recebido: " ++ tipo 
